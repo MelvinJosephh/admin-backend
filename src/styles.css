@@ -1,8 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
 @import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+@import 'bootstrap/dist/css/bootstrap.min.css';
 
 :root {
-  --primary-color: #258a76;
+  --primary-color: #1fa48a;
   --secondary-color: #93E9BE;
   --body-text-color: rgb(18, 19, 16);
   --navbar-footer-color: #d4dbda;
@@ -58,8 +59,12 @@ input [type = text], input [type = email] {
 }
 .btn-theme {
   border: none;
-  font-size: 20px;
+  font-size: 16px;
+  color:var(--background-color);
   background-color: var(--primary-color);
+}
+.btn-theme:hover {
+  color: var(--link-color) !important;
 }
 
 /*# sourceMappingURL=styles.css.map */

@@ -3,6 +3,9 @@ import { CommonModule } from '@angular/common';
 import { AngularFireModule } from '@angular/fire/compat';
 import { environment } from '../environments/environment';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { FormsModule } from '@angular/forms';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { CategoriesComponent } from './categories/categories.component';
 
 
 @NgModule({
@@ -10,7 +13,10 @@ import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
   imports: [
     CommonModule,
     AngularFireModule.initializeApp(environment.firebase),
-    AngularFirestoreModule
+    AngularFirestoreModule, 
+    FormsModule,
+    DashboardComponent,
+    CategoriesComponent
   ]
 })
 export class AppModule { }
