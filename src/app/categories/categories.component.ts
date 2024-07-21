@@ -1,26 +1,63 @@
+// // categories.component.ts
+// import { Component, OnInit } from '@angular/core';
+// import { FormsModule } from '@angular/forms';
+// import { AngularFirestore } from '@angular/fire/compat/firestore';
+
+// @Component({
+//   selector: 'app-categories',
+//   standalone: true,
+//   imports: [FormsModule],
+//   templateUrl: './categories.component.html',
+//   styleUrls: ['./categories.component.css']
+// })
+// export class CategoriesComponent implements OnInit {
+
+//   constructor(private afs: AngularFirestore) { }
+
+//   ngOnInit(): void {
+//     // Initialize any data if needed
+//   }
+
+//   onSubmit(formData: any) {
+//     let categoryData = {
+//       category: formData.value.category
+//     };
+
+//     this.afs.collection('categories').add(categoryData).then(docRef => {
+//       console.log(docRef);
+//     })
+//     .catch(err => { console.log(err); });
+//   }
+
+// }
+
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { AngularFirestore } from '@angular/fire/compat/firestore';
 
 @Component({
   selector: 'app-categories',
   standalone: true,
   imports: [FormsModule],
   templateUrl: './categories.component.html',
-  styleUrl: './categories.component.css'
+  styleUrls: ['./categories.component.css']
 })
 export class CategoriesComponent implements OnInit {
 
-  constructor() {}
+  constructor(private afs: AngularFirestore) { }
+
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    // Initialize any data if needed
   }
-  
-ngOninit(): void {
 
-}
-  
-onSubmit(formData: any) {
-console.log (formData);
-}
+  onSubmit(formData: any) {
+    let categoryData = {
+      category: formData.value.category
+    };
 
+    this.afs.collection('categories').add(categoryData).then(docRef => {
+      console.log(docRef);
+    })
+    .catch(err => { console.log(err); });
+  }
 }
