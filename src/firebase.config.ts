@@ -1,8 +1,11 @@
+import { initializeApp } from "firebase/app";
+
 export const firebaseConfig = {
-    apiKey: "AIzaSyAql8C583a8_Mjkz-v_twfd_Lqcbby_YPs",
-    authDomain: "aberrange-cbe6b.firebaseapp.com",
-    projectId: "aberrange-cbe6b",
-    storageBucket: "aberrange-cbe6b.appspot.com",
-    messagingSenderId: "512725676831",
-    appId: "1:512725676831:web:da012808071fe64d56362a"
-  };
+  apiKey: "AIzaSyCa2gfcSj6hZ5csUS6Zoh-_Xuvuv0bho34",
+  authDomain: "range-blogs.firebaseapp.com",
+  projectId: "range-blogs",
+  storageBucket: "range-blogs.appspot.com",
+  messagingSenderId: "249262928048",
+  appId: "1:249262928048:web:273920d3c79be929900b75"
+};
+

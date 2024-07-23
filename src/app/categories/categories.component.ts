@@ -1,63 +1,37 @@
-// // categories.component.ts
-// import { Component, OnInit } from '@angular/core';
-// import { FormsModule } from '@angular/forms';
-// import { AngularFirestore } from '@angular/fire/compat/firestore';
 
-// @Component({
-//   selector: 'app-categories',
-//   standalone: true,
-//   imports: [FormsModule],
-//   templateUrl: './categories.component.html',
-//   styleUrls: ['./categories.component.css']
-// })
-// export class CategoriesComponent implements OnInit {
-
-//   constructor(private afs: AngularFirestore) { }
-
-//   ngOnInit(): void {
-//     // Initialize any data if needed
-//   }
-
-//   onSubmit(formData: any) {
-//     let categoryData = {
-//       category: formData.value.category
-//     };
-
-//     this.afs.collection('categories').add(categoryData).then(docRef => {
-//       console.log(docRef);
-//     })
-//     .catch(err => { console.log(err); });
-//   }
-
-// }
-
+// categories.component.ts
 import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
+import { CommonModule } from '@angular/common';
+import { CategoriesService } from '../services/categories.service';
+import { Category, CategoryWithId } from '../models/category';
+
+
 
 @Component({
   selector: 'app-categories',
   standalone: true,
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
   templateUrl: './categories.component.html',
   styleUrls: ['./categories.component.css']
 })
 export class CategoriesComponent implements OnInit {
+  categoryArray: Array<CategoryWithId> = [];
 
-  constructor(private afs: AngularFirestore) { }
+  constructor(private categoryService: CategoriesService) { }
 
   ngOnInit(): void {
     // Initialize any data if needed
+    this.categoryService.loadData().subscribe((data: Array<CategoryWithId>) => {
+      console.log(data);
+      this.categoryArray = data;
+    })
   }
 
   onSubmit(formData: any) {
-    let categoryData = {
+    let categoryData: Category = {
       category: formData.value.category
-    };
-
-    this.afs.collection('categories').add(categoryData).then(docRef => {
-      console.log(docRef);
-    })
-    .catch(err => { console.log(err); });
+    }
+    this.categoryService.saveData(categoryData);
   }
 }
