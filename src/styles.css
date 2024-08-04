@@ -16,7 +16,7 @@
 
 body {
   font-family: "PT Serif", serif;
-  font-size: 16px;
+  font-size: 14px;
   color: var(--body-text-color);
 }
 
@@ -55,7 +55,6 @@ h1 {
 input [type = text], input [type = email] {
   height: 60px;
   padding-left: 20px;
-  font-size: 13px;
   width: 100%;
 }
 .btn-theme {
@@ -69,3 +68,5 @@ input [type = text], input [type = email] {
 }
 
 /*# sourceMappingURL=styles.css.map */
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
