@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CategoriesService } from '../../services/categories.service';
 import { PostsService } from '../../services/posts.service';
 import { CategoryWithId } from '../../models/category';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { Post } from '../../models/post';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-new-post',
   standalone: true,
-  imports: [ReactiveFormsModule, CommonModule, AngularEditorModule],
+  imports: [ReactiveFormsModule, CommonModule, AngularEditorModule, FormsModule, RouterModule],
   templateUrl: './new-post.component.html',
   styleUrls: ['./new-post.component.scss']
 })
@@ -67,7 +68,7 @@ export class NewPostComponent implements OnInit {
 
   onSubmit(): void {
     let splitted = this.postForm.value.category.split('-');
-    console.log(splitted);
+    // console.log(splitted);
 
     const postData: Post = {
       title: this.postForm.value.title,
@@ -83,18 +84,13 @@ export class NewPostComponent implements OnInit {
       views: 0,
       status: 'new',
       createdAt: new Date()
-    };
-    console.log('Post Data:', postData);
-    if (this.selectedImg) {
-      this.postService.uploadImage(this.selectedImg)
-        .then(url => {
-          postData.postImgPath = url;
-          console.log('Image uploaded and available at:', url);
-          // Continue with saving postData...
-        })
-        .catch(error => {
-          console.error('Image upload failed:', error);
-        });
     }
+    console.log(postData);
+
+    this.postService.uploadImage(this.selectedImg, postData);
+    this.postForm.reset();
+    this.imgSrc = './assets/img-holder.jpg';
   }
+
+ 
 }
