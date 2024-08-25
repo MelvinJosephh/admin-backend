@@ -9,7 +9,7 @@ import { Post } from '../../models/post';
   standalone: true,
   imports: [CommonModule, RouterModule],
   templateUrl: './all-post.component.html',
-  styleUrl: './all-post.component.css'
+  styleUrls: ['./all-post.component.css']
 })
 export class AllPostComponent implements OnInit {
 
@@ -23,7 +23,6 @@ constructor(private postsService: PostsService){}
       this.postArray = val;
     })
   }
-
 
 
 

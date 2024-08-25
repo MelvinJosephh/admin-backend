@@ -6,7 +6,7 @@ import { CategoryWithId } from '../../models/category';
 import { AngularEditorModule } from '@kolkov/angular-editor';
 import { Post } from '../../models/post';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-new-post',
@@ -19,28 +19,74 @@ export class NewPostComponent implements OnInit {
   imgSrc: string = './assets/img-holder.jpg';
   selectedImg: File | null = null;
   categories: Array<CategoryWithId> = [];
-  postForm: FormGroup;
-
-  constructor(
-    private categoriesService: CategoriesService,
-    private fb: FormBuilder,
-    private postService: PostsService
-  ) {
-    this.postForm = this.fb.group({
-      title: ['', [Validators.required, Validators.minLength(10)]],
-      permalink: ['', Validators.required],
-      excerpt: ['', [Validators.required, Validators.minLength(50)]],
-      category: ['', Validators.required],
-      postImg: [null], // Optional, so no Validators.required
-      content: ['', Validators.required]
-    });
-  }
+  postForm!: FormGroup;
+  post: any;
 
   ngOnInit(): void {
     this.categoriesService.loadData().subscribe(data => {
       this.categories = data;
     });
   }
+
+  // constructor(
+  //   private categoriesService: CategoriesService,
+  //   private fb: FormBuilder,
+  //   private postService: PostsService,
+  //   private route: ActivatedRoute
+  // ) {
+
+  //   this.route.queryParams.subscribe(val => {
+  //     this.postService.loadPostData(val['id']).subscribe(post =>{
+  //       this.post = post;
+  //       this.postForm = this.fb.group({
+  //         title: [this.post.title, [Validators.required, Validators.minLength(10)]],
+  //         permalink: [this.post.permalink, Validators.required],
+  //         excerpt: [this.post.excerpt, [Validators.required, Validators.minLength(50)]],
+  //         category: [`${this.post.category?.id}-${this.post.data?.category}`, Validators.required],
+  //         postImg: [this.post.postImg], // Optional, so no Validators.required
+  //         content: [this.post.content, Validators.required]
+  //       });
+
+  //     });
+  //   })
+
+  // }
+
+  constructor(
+    private categoriesService: CategoriesService,
+    private fb: FormBuilder,
+    private postService: PostsService,
+    private route: ActivatedRoute
+  ) {
+    this.postForm = this.fb.group({
+      title: ['', [Validators.required, Validators.minLength(10)]],
+      permalink: ['', Validators.required],
+      excerpt: ['', [Validators.required, Validators.minLength(50)]],
+      category: ['', Validators.required],
+      postImg: [null],
+      content: ['', Validators.required],
+    });
+  
+    this.route.queryParams.subscribe(val => {
+      if (val['id']) {
+        this.postService.loadPostData(val['id']).subscribe(post => {
+          if (post) {
+            this.post = post;
+            this.postForm.patchValue({
+              title: post.title,
+              permalink: post.permalink,
+              excerpt: post.excerpt,
+              category: `${post.category.categoryId}-${post.category.category}`,
+              postImg: post.postImgPath,
+              content: post.content
+            });
+          }
+        });
+      }
+    });
+  }
+  
+
 
   get fc() {
     return this.postForm.controls;
@@ -67,15 +113,14 @@ export class NewPostComponent implements OnInit {
   }
 
   onSubmit(): void {
-    let splitted = this.postForm.value.category.split('-');
-    // console.log(splitted);
-
+    const [categoryId, category] = this.postForm.value.category.split('-');
+  
     const postData: Post = {
       title: this.postForm.value.title,
       permalink: this.postForm.value.permalink,
       category: {
-        categoryId: splitted[0],
-        category: splitted[1]
+        categoryId,
+        category
       },
       postImgPath: '',
       excerpt: this.postForm.value.excerpt,
@@ -84,13 +129,12 @@ export class NewPostComponent implements OnInit {
       views: 0,
       status: 'new',
       createdAt: new Date()
-    }
-    console.log(postData);
-
+    };
+  
     this.postService.uploadImage(this.selectedImg, postData);
     this.postForm.reset();
     this.imgSrc = './assets/img-holder.jpg';
   }
+  
 
- 
 }
