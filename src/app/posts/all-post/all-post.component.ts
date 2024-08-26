@@ -7,7 +7,7 @@ import { Post } from '../../models/post';
 @Component({
   selector: 'app-all-post',
   standalone: true,
-  imports: [CommonModule, RouterModule],
+  imports: [CommonModule, RouterModule,],
   templateUrl: './all-post.component.html',
   styleUrls: ['./all-post.component.css']
 })
@@ -24,7 +24,14 @@ constructor(private postsService: PostsService){}
     })
   }
 
+onDelete(postImgPath: string, id: any){
+  this.postsService.deleteImage(postImgPath, id);
+}
 
-
-
+onFeatured(id: any, value: any){
+const featureData = {
+  isFeatured: value,
+}
+this.postsService.markFeatured(id, featureData);
+}
 }

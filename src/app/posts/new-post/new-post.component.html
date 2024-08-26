@@ -1,10 +1,11 @@
 <div class="container">
   <div class="row">
     <div class="col-md-12 text-center">
-      <h3 class="text-theme-primary">Add New Post</h3>
-      <p class="mb-5">Publish your new blog here</p>
+      <h3 class="text-theme-primary">{{formStatus}} Post</h3>
+      <p class="mb-5">Please {{formStatus}} blog here</p>
     </div>
   </div>
+<div *ngIf = "postForm">
   <form [formGroup]="postForm" (ngSubmit)='onSubmit()'>
     <div class="row">
       <div class="col-md-7">
@@ -149,7 +150,7 @@
           </div>
       </div>
       <div class="col-md-12 text-center mb-5">
-        <button class="btn btn-info bg-theme" [disabled]='postForm.invalid'>Save Post</button>
+        <button class="btn btn-info bg-theme" [disabled]='postForm.invalid'>{{formStatus}} Post</button>
         <button
           class="btn btn-warning ml-3"
           routerLink='/all-posts'
@@ -160,4 +161,5 @@
       </div>
     </div>
   </form>
+</div>
 </div>

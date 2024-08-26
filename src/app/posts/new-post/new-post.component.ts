@@ -16,41 +16,20 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
   styleUrls: ['./new-post.component.scss']
 })
 export class NewPostComponent implements OnInit {
-  imgSrc: string = './assets/img-holder.jpg';
+  imgSrc: string = '/img-holder.jpg';
   selectedImg: File | null = null;
   categories: Array<CategoryWithId> = [];
   postForm!: FormGroup;
   post: any;
+  formStatus: string = 'Add New';
+  docId: any;
+
 
   ngOnInit(): void {
     this.categoriesService.loadData().subscribe(data => {
       this.categories = data;
     });
   }
-
-  // constructor(
-  //   private categoriesService: CategoriesService,
-  //   private fb: FormBuilder,
-  //   private postService: PostsService,
-  //   private route: ActivatedRoute
-  // ) {
-
-  //   this.route.queryParams.subscribe(val => {
-  //     this.postService.loadPostData(val['id']).subscribe(post =>{
-  //       this.post = post;
-  //       this.postForm = this.fb.group({
-  //         title: [this.post.title, [Validators.required, Validators.minLength(10)]],
-  //         permalink: [this.post.permalink, Validators.required],
-  //         excerpt: [this.post.excerpt, [Validators.required, Validators.minLength(50)]],
-  //         category: [`${this.post.category?.id}-${this.post.data?.category}`, Validators.required],
-  //         postImg: [this.post.postImg], // Optional, so no Validators.required
-  //         content: [this.post.content, Validators.required]
-  //       });
-
-  //     });
-  //   })
-
-  // }
 
   constructor(
     private categoriesService: CategoriesService,
@@ -68,7 +47,8 @@ export class NewPostComponent implements OnInit {
     });
   
     this.route.queryParams.subscribe(val => {
-      if (val['id']) {
+      if (this.docId) {
+        this.docId = val['id'];
         this.postService.loadPostData(val['id']).subscribe(post => {
           if (post) {
             this.post = post;
@@ -80,6 +60,8 @@ export class NewPostComponent implements OnInit {
               postImg: post.postImgPath,
               content: post.content
             });
+            this.imgSrc = this.post.postImgPath;
+            this.formStatus = 'Edit';
           }
         });
       }
@@ -131,9 +113,9 @@ export class NewPostComponent implements OnInit {
       createdAt: new Date()
     };
   
-    this.postService.uploadImage(this.selectedImg, postData);
+    this.postService.uploadImage(this.selectedImg, postData, this.formStatus, this.docId);
     this.postForm.reset();
-    this.imgSrc = './assets/img-holder.jpg';
+    this.imgSrc = '/img-holder.jpg';
   }
   
 

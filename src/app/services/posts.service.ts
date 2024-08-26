@@ -21,7 +21,7 @@ export class PostsService {
     private router: Router
   ) { }
 
-uploadImage(selectedImage: File | null, postData: Post) {
+uploadImage(selectedImage: File | null, postData: Post, formStatus: string | undefined, id: undefined) {
   if (!selectedImage) {
     this.toastr.error('No image selected.');
     return;
@@ -34,7 +34,12 @@ uploadImage(selectedImage: File | null, postData: Post) {
     fileRef.getDownloadURL().subscribe({
       next: (URL) => {
         postData.postImgPath = URL;
-        this.savePostData(postData);
+
+        if(formStatus=='Edit'){
+          this.updateData(id, postData);
+        } else {
+          this.savePostData(postData);
+        }
       },
       error: (err) => {
         this.toastr.error('Error fetching image URL.');
@@ -82,9 +87,31 @@ uploadImage(selectedImage: File | null, postData: Post) {
       })
     );
   }
+
+  updateData(id: any, postData: Partial<unknown>){
+  this.afs.doc(`posts/${id}`).update(postData).then(()=>{
+    this.toastr.success('Data updated successfully');
+    this.router.navigate(['/all-posts']);
+  })
+  }
   
+deleteImage(postImgPath: string, id: any){
+  this.storage.storage.refFromURL(postImgPath).delete().then(()=>{
+  this.deleteData(id);
+  });
+}
+deleteData(id: any){
+  this.afs.doc(`posts/${id}`).delete().then(()=>{
+    this.toastr.warning('Data Deleted..!');
+  });
+}
+  
+markFeatured(id: any, featuredData: Partial<unknown>){
+this.afs.doc(`posts/${id}`).update(featuredData).then(()=>{
+  this.toastr.info('Featured Status Updated');
+})
+}
 
 
-  
 }
 
