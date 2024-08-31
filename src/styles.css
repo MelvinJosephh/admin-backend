@@ -17,6 +17,8 @@
 body {
   font-size: 14px;
   color: var(--body-text-color);
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+  display: contents;
 }
 
 .site-logo {
@@ -27,7 +29,7 @@ body {
     text-decoration: none !important;
 }
 .nav-link {
-  color: var(--secondary-color);
+  color: var(--primary-color);
 }
 
 .shadow-effect {
@@ -51,21 +53,25 @@ h1 {
   color: var(--primary-color);
 }
 
-input [type = text], input [type = email] {
+.form-group {
+padding-bottom: 10px;
+}
+
+input[type = text], input[type = email], input[type = password] {
   height: 60px;
   padding-left: 20px;
-  width: 100%;
+  width: 100% !important;
 }
 .btn-theme {
   border: none;
-  font-size: 16px;
-  color:var(--background-color);
+  height: 58px;
+  /* font-size: 16px; */
   background-color: var(--primary-color);
+  width: 100%;
 }
+
 .btn-theme:hover {
   color: var(--link-color) !important;
 }
 
-/*# sourceMappingURL=styles.css.map */
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
