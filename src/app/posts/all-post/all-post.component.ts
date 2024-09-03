@@ -19,7 +19,7 @@ constructor(private postsService: PostsService){}
 
   ngOnInit(): void {
     this.postsService.loadData().subscribe(val => {
-      console.log(val);
+      // console.log(val);
       this.postArray = val;
     })
   }

@@ -25,7 +25,7 @@ export class CategoriesComponent implements OnInit {
   ngOnInit(): void {
     // Initialize any data if needed
     this.categoryService.loadData().subscribe((data: Array<CategoryWithId>) => {
-      console.log(data);
+      // console.log(data);
       this.categoryArray = data;
     })
   }
